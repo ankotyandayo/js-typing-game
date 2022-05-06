@@ -11,11 +11,9 @@ body {
   justify-content: center;
   overflow: hidden;
   /* background-color: rgb(185, 230, 224); */
-  background: linear-gradient(
-    to left top,
-    rgb(219, 143, 143),
-    rgb(121, 231, 173)
-  );
+  background: linear-gradient(to left top,
+      rgb(219, 143, 143),
+      rgb(121, 231, 173));
   font-family: "Poppins", sans-serif;
 }
 
@@ -31,46 +29,6 @@ body {
   box-shadow: 1px 5px 6px rgb(80, 80, 80);
 }
 
-.container .type-input {
+.container .type-Input {
   margin-top: 4rem;
-  font-size: 3rem;
-}
-
-.timer {
-  position: absolute;
-  top: 2rem;
-  font-size: 5rem;
-  font-weight: bold;
-  color: rgb(202, 87, 87);
-}
-
-.type-display {
-  margin-bottom: 1rem;
-  margin-left: 1rem;
-}
-
-.type-input {
-  background: transparent;
-  border: 2px solid rgb(158, 52, 52);
-  outline: none;
-  width: 100%;
-  height: 14rem;
-  margin: auto;
-  resize: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-}
-
-.type-input:focus {
-  border-color: black;
-}
-
-.correct {
-  color: green;
-}
-
-.incorrect {
-  color: red;
-  text-decoration: underline;
 }
