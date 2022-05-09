@@ -1,6 +1,7 @@
 const RANDOM_SENTENCE_URL_API = "https://api.quotable.io/random";
 const typeDisplay = document.getElementById("typeDisplay");
 const typeInput = document.getElementById("typeInput");
+const timer = document.getElementById("timer");
 
 /* inputテキスト入力。あっているかどうかの判定。 */
 typeInput.addEventListener("input", () => {
@@ -11,8 +12,16 @@ typeInput.addEventListener("input", () => {
 
   // 入力とtypeを比較する
   sentenceArray.forEach((characterSpan, index) => {
-    if (characterSpan.innerText == arrayValue[index]) {
-
+    if (arrayValue[index] == null) {
+      characterSpan.classList.remove("correct");
+      characterSpan.classList.remove("incorrect");
+    }
+    else if (characterSpan.innerText == arrayValue[index]) {
+      characterSpan.classList.add("correct");
+      characterSpan.classList.remove("incorrect");
+    } else {
+      characterSpan.classList.add("incorrect");
+      characterSpan.classList.remove("correct");
     }
   });
 
@@ -43,12 +52,31 @@ async function RenderNextSentence() {
     characterSpan.innerText = character;
     // console.log(characterSpan);
     typeDisplay.appendChild(characterSpan);
-    characterSpan.classList.add("correct");
+    // characterSpan.classList.add("correct");
 
   });
 
   /* テキストボックスの中身を消す */
   typeInput.innerText = "";
+
+  StartTimer();
+}
+
+let startTime;
+let originTIme = 30;
+function StartTimer() {
+  timer.innerText = originTIme;
+  startTime = new Date();
+  // console.log(startTime);
+  // 1000mm秒=1秒
+  setInterval(() => {
+    timer.innerText = originTIme - getTimerTime();
+  }, 1000);
+}
+
+// Math.floorは小数点を消す
+function getTimerTime() {
+  return Math.floor((new Date() - startTime) / 1000);
 }
 
 RenderNextSentence();
