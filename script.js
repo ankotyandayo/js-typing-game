@@ -3,18 +3,28 @@ const typeDisplay = document.getElementById("typeDisplay");
 const typeInput = document.getElementById("typeInput");
 const timer = document.getElementById("timer");
 
+const typeSound = new Audio("./audio/typing-sound.mp3");
+const correctSound = new Audio("./audio/correct.mp3");
+const wrongSound = new Audio("./audio/wrong.mp3");
+
 /* inputテキスト入力。あっているかどうかの判定。 */
 typeInput.addEventListener("input", () => {
+
+  typeSound.play();
+  typeSound.currentTime = 0;
+
   const sentenceArray = typeDisplay.querySelectorAll("span");
   // console.log(sentenceArray);
   const arrayValue = typeInput.value.split("");
   // console.log(arrayValue);
-
+  // フラグ
+  let correct = true;
   // 入力とtypeを比較する
   sentenceArray.forEach((characterSpan, index) => {
     if (arrayValue[index] == null) {
       characterSpan.classList.remove("correct");
       characterSpan.classList.remove("incorrect");
+      correct = false;
     }
     else if (characterSpan.innerText == arrayValue[index]) {
       characterSpan.classList.add("correct");
@@ -22,9 +32,18 @@ typeInput.addEventListener("input", () => {
     } else {
       characterSpan.classList.add("incorrect");
       characterSpan.classList.remove("correct");
+      wrongSound.volume = 0.3;
+      wrongSound.play();
+      wrongSound.currentTime = 0;
+      correct = false;
     }
   });
 
+  if (correct == true) {
+    correctSound.play();
+    correctSound.currentTime = 0;
+    RenderNextSentence();
+  }
 });
 
 
@@ -57,7 +76,9 @@ async function RenderNextSentence() {
   });
 
   /* テキストボックスの中身を消す */
-  typeInput.innerText = "";
+  // innerTextはタグの中のテキスト
+  // typeInput.innerText = "";
+  typeInput.value = "";
 
   StartTimer();
 }
@@ -69,14 +90,20 @@ function StartTimer() {
   startTime = new Date();
   // console.log(startTime);
   // 1000mm秒=1秒
+  // setInterval(関数,処理間隔)
   setInterval(() => {
     timer.innerText = originTIme - getTimerTime();
+    if (timer.innerText <= 0) Timeup();
   }, 1000);
 }
 
-// Math.floorは小数点を消す
+// Math.floorは小数点を切り捨てる
 function getTimerTime() {
   return Math.floor((new Date() - startTime) / 1000);
+}
+
+function Timeup() {
+  RenderNextSentence();
 }
 
 RenderNextSentence();
